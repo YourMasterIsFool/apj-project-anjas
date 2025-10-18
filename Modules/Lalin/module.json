@@ -1,0 +1,11 @@
+{
+    "name": "Lalin",
+    "alias": "lalin",
+    "description": "",
+    "keywords": [],
+    "priority": 0,
+    "providers": [
+        "Modules\\Lalin\\Providers\\LalinServiceProvider"
+    ],
+    "files": []
+}
