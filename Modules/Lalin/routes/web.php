@@ -20,3 +20,10 @@ Route::prefix("lalin")->group(function () {
     Route::resource("traffic", TrafficController::class);
     Route::resource("warning", WarningController::class);
 });
+
+Route::get("/jalan/export", [JalanController::class, "export"]);
+
+
+Route::prefix("export-excel")->group(function () {
+    Route::get("/jalan", [JalanController::class, "export"]);
+});

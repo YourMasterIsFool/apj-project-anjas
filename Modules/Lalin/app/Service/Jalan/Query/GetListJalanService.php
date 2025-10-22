@@ -9,10 +9,18 @@ use function App\Helper\cursorPaginationHelper;
 
 class GetListJalanService
 {
-    public function execute(PaginationRequest $pagination)
+    public function execute(PaginationRequest $pagination, bool $is_export = false)
     {
-
         $query = TJalan::query();
+        $query = $query
+            ->when($pagination->search, function ($query) use ($pagination) {
+                return $query->where("nama_jalan", "like", "%" . $pagination->search . "%");
+            });
+        if ($is_export) {
+            return $query->get();
+        }
+
+
         $query = cursorPaginationHelper($query, $pagination);
         return $query;
     }

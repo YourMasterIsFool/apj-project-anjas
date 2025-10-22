@@ -6,6 +6,7 @@ export interface PermissionsUrl {
     deleteUrl?: string;
     editUrl?: string;
     listUrl?: string;
+    exportUrl?: string;
 }
 
 export interface Permissions {

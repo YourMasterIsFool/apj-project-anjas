@@ -89,4 +89,11 @@ class JalanController extends Controller
         $data = $this->service->delete($id);
         return redirect()->route("jalan.index")->with("success", "Successfully delete data");
     }
+
+    public function export(Request $request)
+    {
+
+        $params = PaginationRequest::from($request);
+        return $this->service->export($params);
+    }
 }

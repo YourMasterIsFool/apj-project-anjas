@@ -10,7 +10,7 @@ import { useWarnings } from '../composable/useWarnings';
 
 const breadcrumbs: BreadcrumbItem[] = [
     {
-        title: 'Traffic',
+        title: 'Warning',
         href: dashboard().url,
     },
 ];
@@ -25,9 +25,9 @@ const {
 
 <template>
 
-    <Head title="Traffic" />
-    <AppLayout :breadcrumbs="breadcrumbs" title="List Traffic">
-        <MainCard :permissionsUrl="permissionsUrl" title="List Traffic">
+    <Head title="Warning" />
+    <AppLayout :breadcrumbs="breadcrumbs" title="List Warning">
+        <MainCard :permissionsUrl="permissionsUrl" title="List Warning">
             <template #main>
                 <CustomTable :content="content" :columns="columns" :data="content.data"
                     :permissionsUrl="permissionsUrl" />

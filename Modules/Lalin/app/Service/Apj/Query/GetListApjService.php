@@ -10,9 +10,11 @@ use function App\Helper\cursorPaginationHelper;
 
 class GetListApjService
 {
-    public function execute(PaginationRequest $pagination)
+    public function execute(PaginationRequest $pagination, bool $is_export = false)
     {
 
+        if ($is_export) {
+        }
         $query = TApj::query();
         $query = cursorPaginationHelper($query, $pagination);
         return $query;

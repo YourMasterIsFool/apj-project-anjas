@@ -12,6 +12,7 @@ import { FilterIcon, Plus } from "lucide-vue-next";
 import FilterDialogTable from "./FilterDialogTable.vue";
 
 
+import { DownloadCloudIcon } from "lucide-vue-next";
 
 import {
 
@@ -67,7 +68,6 @@ interface PropsType {
     columns: ColumnDef<T, any>[],
     permissionsUrl: PermissionsUrl,
     data: T[]
-
 }
 
 const props = withDefaults(defineProps<PropsType>(), {
@@ -162,6 +162,17 @@ watch(params, (value) => {
     })
 }, { deep: true })
 
+const handleExport = () => {
+
+    if (props.permissionsUrl && props.permissionsUrl.exportUrl) {
+
+        const payload = new URLSearchParams();
+
+        if (params.search) payload.append("search", params.search)
+        window.open(props.permissionsUrl.exportUrl + `?${payload.toString()}`)
+    }
+}
+
 </script>
 
 <template>
@@ -171,6 +182,12 @@ watch(params, (value) => {
             </slot>
         </FilterDialogTable>
         <div class="flex justify-end items-center space-x-3">
+            <Button variant="outline"
+                class="transition-all duration-300 bg-green-50 cursor-pointer  text-green-600 hover:bg-green-600 hover:text-white"
+                v-if="props.permissionsUrl && props.permissionsUrl.exportUrl" @click="handleExport">
+                <DownloadCloudIcon />
+            </Button>
+
             <Button variant="secondary" @click="openFilter = true">
                 <FilterIcon />
             </Button>
@@ -180,6 +197,7 @@ watch(params, (value) => {
             <div>
                 <Input placeholder="search ..." v-model="params.search" />
             </div>
+
             <Button v-if="props.permissionsUrl && props.permissionsUrl.createUrl"
                 @click="router.visit(props.permissionsUrl.createUrl)" variant="default">
                 <Plus />

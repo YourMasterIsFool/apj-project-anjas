@@ -15,6 +15,7 @@ export function useJalans() {
         detailUrl: URL_PATH + '/:id/edit',
         deleteUrl: URL_PATH + '/:id',
         listUrl: URL_PATH,
+        exportUrl: '/export-excel/jalan',
     };
 
     const columnHelper = createColumnHelper<Jalan>();
