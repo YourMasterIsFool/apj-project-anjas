@@ -15,6 +15,7 @@ export function useTraffics() {
         detailUrl: URL_PATH + '/:id/edit',
         deleteUrl: URL_PATH + '/:id',
         listUrl: URL_PATH,
+        exportUrl: '/export-excel/traffic',
     };
 
     const columnHelper = createColumnHelper<Traffic>();
@@ -26,6 +27,18 @@ export function useTraffics() {
             cell: (info) => info.row.index + 1, // index mulai dari 0, jadi tambahkan 1
         }),
 
+        columnHelper.accessor('jalan', {
+            header: () => h('div', { class: 'text-left' }, 'Jalan'),
+            cell: ({ row }) => {
+                // Format the amount as a dollar amount
+                const original = row.original;
+                return h(
+                    'div',
+                    { class: 'text-left font-medium' },
+                    original.jalan?.name,
+                );
+            },
+        }),
         columnHelper.accessor('lokasi', {
             header: () => h('div', { class: 'text-left' }, 'Lokasi'),
             cell: ({ row }) => {
@@ -40,7 +53,7 @@ export function useTraffics() {
         }),
 
         columnHelper.accessor('kode', {
-            header: () => h('div', { class: 'text-left' }, 'Kode Traffic'),
+            header: () => h('div', { class: 'text-left' }, 'Kode'),
             cell: ({ row }) => {
                 // Format the amount as a dollar amount
 
@@ -101,21 +114,34 @@ export function useTraffics() {
             },
         }),
 
-        columnHelper.accessor('durasi', {
-            header: () => h('div', { class: 'text-left' }, 'Durasi'),
+        // columnHelper.accessor('list_lampu', {
+        //     header: () => h('div', { class: 'text-left' }, 'Durasi'),
+        //     cell: ({ row }) => {
+        //         // Format the amount as a dollar amount
+
+        //         return h(
+        //             'div',
+        //             { class: 'text-left font-medium' },
+        //             row.getValue('list_lampu'),
+        //         );
+        //     },
+        // }),
+
+        columnHelper.accessor('kondisi', {
+            header: () => h('div', { class: 'text-left' }, 'Kondisi'),
             cell: ({ row }) => {
                 // Format the amount as a dollar amount
 
                 return h(
                     'div',
                     { class: 'text-left font-medium' },
-                    row.getValue('durasi'),
+                    row.getValue('kondisi'),
                 );
             },
         }),
 
         columnHelper.accessor('keterangan', {
-            header: () => h('div', { class: 'text-left' }, 'Durasi'),
+            header: () => h('div', { class: 'text-left' }, 'Keterangan'),
             cell: ({ row }) => {
                 // Format the amount as a dollar amount
 
@@ -133,6 +159,8 @@ export function useTraffics() {
     const content = computed(
         () => pages.props.data as PaginationResponse<Traffic>,
     );
+
+    console.log(content);
     return {
         page,
         permissionsUrl,

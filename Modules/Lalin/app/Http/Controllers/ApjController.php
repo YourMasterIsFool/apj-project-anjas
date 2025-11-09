@@ -10,6 +10,7 @@ use Illuminate\Validation\ValidationException;
 use Inertia\Inertia;
 use Modules\Lalin\app\Data\Apj\Request\CreateApjRequestData;
 use Modules\Lalin\app\Service\Apj\ApjService;
+use Modules\Lalin\app\Service\Jalan\JalanService;
 
 class ApjController extends Controller
 {
@@ -20,16 +21,19 @@ class ApjController extends Controller
 
     use ResponseTrait;
     public function __construct(
-        private ApjService $service
+        private ApjService $service,
+        private JalanService $jalan_service
     ) {}
     public function index(Request $request)
     {
 
         $params = PaginationRequest::from($request);
         $data = $this->service->get_list_apj($params);
+        $list_jalan = $this->jalan_service->get_list_jalan();
         // Controller
         return Inertia::render('lalin/apj/pages/Index', [
-            "data" => $data
+            "data" => $data,
+            "list_jalan" => $list_jalan
         ]);
     }
 
@@ -38,7 +42,10 @@ class ApjController extends Controller
      */
     public function create()
     {
-        return Inertia::render('lalin/apj/pages/Form');
+        $list_jalan = $this->jalan_service->get_list_jalan();
+        return Inertia::render('lalin/apj/pages/Form', [
+            "list_jalan" => $list_jalan
+        ]);
     }
 
     /**
@@ -65,8 +72,10 @@ class ApjController extends Controller
     {
 
         $data = $this->service->detail($id);
+        $list_jalan = $this->jalan_service->get_list_jalan();
         return Inertia::render("lalin/apj/pages/Form", [
-            "data" => $data
+            "data" => $data,
+            "list_jalan" => $list_jalan
         ]);
     }
 

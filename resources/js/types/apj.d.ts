@@ -1,9 +1,11 @@
+import { IDefaultDataEmbed } from '@/types/defaultDataEmbed';
+
 export interface Apj {
     id: number;
-    lokasi_nama_jalan: string;
+    jalan_id: number;
     kode_tiang: string;
-    latitude: number;
-    longitude: number;
+    latitude: string;
+    longitude: string;
     updated_at: string;
     created_at: string;
 
@@ -12,13 +14,14 @@ export interface Apj {
     tahun_pemasangan: number;
     lokasi_detail: string;
     keterangan: string;
+    jalan: IDefaultDataEmbed;
 }
 
 export interface CreateOrUpdateApjDto {
-    lokasi_nama_jalan: string;
+    jalan_id: number | null;
     kode_tiang: string;
-    latitude: number;
-    longitude: number;
+    latitude: string;
+    longitude: string;
     jenis: string;
     tipe_tiang: string;
     tahun_pemasangan: number;

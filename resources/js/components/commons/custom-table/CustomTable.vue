@@ -80,6 +80,8 @@ const props = withDefaults(defineProps<PropsType>(), {
 })
 
 
+const emits = defineEmits(['onFilter'])
+
 const page = usePage();
 
 
@@ -146,6 +148,10 @@ const params = reactive<PaginationRequest>({
     limit: 10,
     search: undefined
 })
+
+const filterParams = reactive<any>({});
+
+
 const nextPaginationHandler = () => {
     console.log("next");
     params.cursor = props.content.next_cursor
@@ -155,6 +161,16 @@ const prevPaginationHandler = () => {
     params.cursor = props.content.prev_cursor
 }
 watch(params, (value) => {
+
+
+    if (!value) return
+    router.get(page.url ?? '', { ...value, ...filterParams }, {
+        preserveState: true,
+        replace: true,
+    })
+}, { deep: true })
+
+watch(filterParams, (value) => {
     if (!value) return
     router.get(page.url ?? '', value, {
         preserveState: true,
@@ -173,12 +189,15 @@ const handleExport = () => {
     }
 }
 
+
 </script>
 
 <template>
     <div class="w-full">
-        <FilterDialogTable :open="openFilter" @onCancel="openFilter = false" @onOpenChange="openFilter = !openFilter">
+        <FilterDialogTable @on-filter="emits('onFilter')" :open="openFilter" @onCancel="openFilter = false"
+            @onOpenChange="openFilter = !openFilter">
             <slot name="filter">
+                w
             </slot>
         </FilterDialogTable>
         <div class="flex justify-end items-center space-x-3">
@@ -209,10 +228,6 @@ const handleExport = () => {
 
         </div>
         <div class=" flex gap-2 items-center py-4">
-            <!-- <Input class="max-w-52" placeholder="Filter emails..."
-                :model-value="table.getColumn('email')?.getFilterValue() as string"
-                @update:model-value=" table.getColumn('email')?.setFilterValue($event)" /> -->
-            <!-- <DeleteConfirmationDialog @onDeletedConfirm="router." :open="openDeleteModal != null" @onOpenChange="() => openDeleteModal == null" /> -->
             <DropdownMenu>
                 <DropdownMenuContent align="end">
                     <DropdownMenuCheckboxItem

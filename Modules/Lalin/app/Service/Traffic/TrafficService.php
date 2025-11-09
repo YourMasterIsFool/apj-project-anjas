@@ -4,6 +4,8 @@
 namespace Modules\Lalin\app\Service\Traffic;
 
 use App\Data\Request\PaginationRequest;
+use App\Exports\TrafficExport;
+use Maatwebsite\Excel\Facades\Excel;
 use Modules\Lalin\app\Data\Traffic\Request\CreateTrafficRequestData;
 use Modules\Lalin\app\Service\Traffic\Command\CreateTrafficService;
 use Modules\Lalin\app\Service\Traffic\Command\DeleteTrafficService;
@@ -46,5 +48,17 @@ class TrafficService
     public function delete($id)
     {
         return $this->delete_traffic_service->execute($id);
+    }
+
+    public function export(?PaginationRequest $pagination, TrafficType $type, string $title = "traffic")
+    {
+
+        $filename = 'data_' . $title . date('Y_m_d_His');
+        $export_data = $this->getListTrafficService->execute($pagination, $type, true);
+        return Excel::download(
+            new TrafficExport($export_data),
+            $filename . '.xlsx',
+            \Maatwebsite\Excel\Excel::XLSX // jangan pakai string typo
+        );
     }
 }

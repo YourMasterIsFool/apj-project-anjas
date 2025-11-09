@@ -1,8 +1,10 @@
 <script lang="ts" setup generic="T extends IGeneralDataEmbed">
-import { toRef } from 'vue'
+import { computed, } from 'vue'
 import { Label } from '@/components/ui/label'
 import { Input } from '@/components/ui/input'
 import { IFormInterface } from '@/types/forms'
+
+import { get, set } from 'lodash';
 import { IGeneralDataEmbed } from '@/types/generalDataEmbed';
 
 interface PropsType<TForm = Record<string, any>> extends IFormInterface<T> {
@@ -17,9 +19,13 @@ interface PropsType<TForm = Record<string, any>> extends IFormInterface<T> {
 const props = defineProps<PropsType>()
 
 // buat reactive model dari prop form
-const model = toRef(props.form, props.name as string)
+// const model = toRef(props.form, props.name as string)
 
-console.log(props.form)
+const model = computed({
+    get: () => get(props.form, props.name),
+    set: (val) => set(props.form, props.name, val),
+})
+
 </script>
 
 <template>

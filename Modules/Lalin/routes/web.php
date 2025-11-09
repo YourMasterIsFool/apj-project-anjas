@@ -26,4 +26,6 @@ Route::get("/jalan/export", [JalanController::class, "export"]);
 
 Route::prefix("export-excel")->group(function () {
     Route::get("/jalan", [JalanController::class, "export"]);
+    Route::get("/traffic", [TrafficController::class, "export"]);
+    Route::get("/warning", [WarningController::class, "export"]);
 });

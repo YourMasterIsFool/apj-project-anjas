@@ -16,7 +16,7 @@ class UpdateApjService
         DB::beginTransaction();
         try {
             $model = TApj::find($id);
-            $model->lokasi_nama_jalan = $data->lokasi_nama_jalan;
+            $model->jalan_id = $data->jalan_id;
             $model->kode_tiang = $data->kode_tiang;
             $model->latitude = $data->latitude;
             $model->longitude = $data->longitude;

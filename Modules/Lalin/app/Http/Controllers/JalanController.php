@@ -65,6 +65,7 @@ class JalanController extends Controller
     {
 
         $data = $this->service->detail($id);
+
         return Inertia::render("lalin/jalan/pages/Form", [
             "data" => $data
         ]);

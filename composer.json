@@ -37,7 +37,8 @@
             "Modules\\": "Modules/"
         },
         "files": [
-            "app/Helper/cursorPaginationHelper.php"
+            "app/Helper/cursorPaginationHelper.php",
+            "app/Helper/constant.php"
         ]
     },
     "autoload-dev": {

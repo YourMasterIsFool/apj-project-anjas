@@ -16,15 +16,13 @@ return new class extends Migration
 
             $table->id(); // no (auto increment)
 
-            // 2. lokasi (nama jalan)
-            $table->string('lokasi_nama_jalan');
 
             // 3. kode / no tiang
             $table->string('kode_tiang')->unique();
 
             // 4-5. koordinat
-            $table->decimal('latitude', 10, 7)->nullable();
-            $table->decimal('longitude', 10, 7)->nullable();
+            $table->string('latitude')->nullable();
+            $table->string('longitude')->nullable();
 
             // 6. jenis (Surya / Konven)
             $table->enum('jenis', ['Surya', 'Konvensional'])->nullable();
@@ -33,7 +31,9 @@ return new class extends Migration
             $table->string('tipe_tiang')->nullable();
 
             // 8. kondisi
-            $table->string('kondisi')->nullable();
+            $table->enum('lokasi', ["kiri", "tengah", "kanan"])->nullable();
+            $table->enum('kondisi', ["baik", "rusak", "hilang"])->nullable();
+
 
             // 9. tahun pemasangan
             $table->year('tahun_pemasangan')->nullable();
@@ -44,6 +44,8 @@ return new class extends Migration
             // 11. keterangan (ketik/isi data)
             $table->text('keterangan')->nullable();
 
+            $table->unsignedBigInteger('jalan_id');
+            $table->foreign("jalan_id")->references("id")->on('t_jalans')->onDelete("cascade");
             $table->timestamps();
         });
     }

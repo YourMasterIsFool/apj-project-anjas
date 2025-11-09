@@ -1,4 +1,5 @@
 import { Apj } from '@/types/apj';
+import { Jalan } from '@/types/jalan';
 import { PaginationResponse } from '@/types/paginationResponse';
 import { PermissionsUrl } from '@/types/permissions';
 import { usePage } from '@inertiajs/vue3';
@@ -26,16 +27,12 @@ export function useApjs() {
             cell: (info) => info.row.index + 1, // index mulai dari 0, jadi tambahkan 1
         }),
 
-        columnHelper.accessor('lokasi_nama_jalan', {
+        columnHelper.accessor('jalan', {
             header: () => h('div', { class: 'text-left' }, 'Lokasi Nama Jalan'),
             cell: ({ row }) => {
                 // Format the amount as a dollar amount
-
-                return h(
-                    'div',
-                    { class: 'text-left font-medium' },
-                    row.getValue('lokasi_nama_jalan'),
-                );
+                const jalan = row.original.jalan.name;
+                return h('div', { class: 'text-left font-medium' }, jalan);
             },
         }),
 
@@ -132,11 +129,13 @@ export function useApjs() {
     const content: PaginationResponse<Apj> = pages.props
         .data as PaginationResponse<Apj>;
 
+    const list_jalan = page.props.list_jalan as Jalan[];
     console.log(content);
     return {
         page,
         permissionsUrl,
         content,
         columns,
+        list_jalan,
     };
 }

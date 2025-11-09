@@ -6,12 +6,15 @@ import FormInput from '@/components/commons/form-input/FormInput.vue'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 
+
 import { useApj } from '../composable/useApj'
 import FormSelect from '@/components/commons/form-select/FormSelect.vue';
+import AsyncSelect from '@/components/commons/async-select/AsyncSelect.vue';
+
 
 const {
-    onSubmit, form, title,
-    jenis
+    onSubmit, form, title, list_jalan,
+    jenis,
 } = useApj();
 
 </script>
@@ -29,51 +32,56 @@ const {
                             <form @submit.prevent="onSubmit" class="grid grid-cols-2 gap-4">
                                 <!-- Nama Apj -->
 
-                                <div class="col-span-2 space-y-1">
-                                    <FormInput label="Lokasi Nama Jalan " placeholder="Insert lokasi nama jalan.."
-                                        name="lokasi_nama_jalan" :form="form" />
+                                <div class=" space-y-1">
+                                    <!-- <FormInput label="Lokasi Nama Jalan " placeholder="Insert lokasi nama jalan.."
+                                        name="lokasi_nama_jalan" :form="form" /> -->
+
+                                    <AsyncSelect :error="form.errors.jalan_id" label="Pilih Jalan"
+                                        :value="form.jalan_id"
+                                        @update:model-value="(value) => form.jalan_id = Number(value?.value)" :options="list_jalan.map((item) => ({
+                                            value: item.id.toString(),
+                                            name: item.nama_jalan
+                                        }))" />
                                 </div>
 
-                                <div class="col-span-2 space-y-1">
+                                <div class=" space-y-1">
                                     <FormInput label="Kode Tiang" placeholder="Insert Kode Tiang.." name="kode_tiang"
                                         :form="form" />
                                 </div>
 
-                                <div class="space-y-1 col-span-2">
-                                    <FormInput label="Latitude" type="number" placeholder="Insert Latitude"
+                                <div class="space-y-1 ">
+                                    <FormInput label="Latitude" type="text" placeholder="Insert Latitude"
                                         name="latitude" :form="form" />
                                 </div>
                                 <!-- Panjang Apj -->
-                                <div class="space-y-1 col-span-2">
-                                    <FormInput type="number" label="Longtitude" placeholder="Insert Longtitude"
+                                <div class="space-y-1 ">
+                                    <FormInput type="text" label="Longtitude" placeholder="Insert Longtitude"
                                         name="longitude" :form="form" />
                                 </div>
-                                <div class="space-y-1 col-span-2">
+                                <div class="space-y-1 ">
                                     <FormInput type="text" label="Tipe Tiang" placeholder="Insert Tipe Tiang"
                                         name="tipe_tiang" :form="form" />
                                 </div>
 
-                                <div class="space-y-1 col-span-2">
-                                    <FormInput type="number" label="Tahun Pemasangnan" placeholder="Tahun Pemasangnan"
+                                <div class="space-y-1 ">
+                                    <FormInput type="number" label="Tahun Pemasangan" placeholder="Tahun Pemasangan"
                                         name="tahun_pemasangan" :form="form" />
                                 </div>
 
-                                <div class="space-y-1 col-span-2">
+                                <div class="space-y-1 ">
                                     <FormInput type="text" label="Lokasi Detail" placeholder="Lokasi Detail"
                                         name="lokasi_detail" :form="form" />
                                 </div>
 
-                                <div class="space-y-1 col-span-2">
+                                <div class="space-y-1 ">
                                     <FormInput type="text" label="Keterangan" placeholder="Keterangan" name="keterangan"
                                         :form="form" />
                                 </div>
 
-                                <div class="space-y-1 col-span-2">
+                                <div class="space-y-1 ">
                                     <FormSelect @on-change="(value) => form.jenis = value" placeholder="Select Jenis"
                                         :value="form.jenis" :options="jenis" label="Jenis" />
                                 </div>
-
-                                {{ form.jenis }}
 
                                 <!-- Button -->
                                 <div class="col-span-2 flex justify-end pt-2">

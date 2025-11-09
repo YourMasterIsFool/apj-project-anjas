@@ -19,4 +19,14 @@ class TTraffic extends Model
     // {
     //     // return TTrafficFactory::new();
     // }
+
+    public function list_lampu()
+    {
+        return $this->hasMany(TTrafficLampu::class, 'traffic_id', 'id');
+    }
+
+    public function jalan()
+    {
+        return $this->belongsTo(TJalan::class, 'jalan_id', 'id');
+    }
 }

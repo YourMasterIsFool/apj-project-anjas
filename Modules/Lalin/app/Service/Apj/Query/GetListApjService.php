@@ -16,7 +16,9 @@ class GetListApjService
         if ($is_export) {
         }
         $query = TApj::query();
+        $query = $query->with(['jalan:id,nama_jalan as name']);
         $query = cursorPaginationHelper($query, $pagination);
+
         return $query;
     }
 }

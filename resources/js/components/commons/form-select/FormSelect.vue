@@ -1,4 +1,4 @@
-<script setup lang="ts" generic="T = IGeneralDataEmbed | string">
+<script setup lang="ts" generic="T = IGeneralDataEmbed">
 import {
     Select,
     SelectContent,
@@ -17,12 +17,13 @@ interface PropsType extends IFormInterface<T> {
     options: IGeneralDataEmbed[]
     value: T
     placeholder?: string,
+    canNullable?: boolean
 
 }
 
 const props = defineProps<PropsType>()
 const emits = defineEmits<{
-    (e: 'onChange', value: T): void
+    (e: 'onChange', value: IGeneralDataEmbed): void
 }>()
 
 // 🔒 helper untuk dapatkan value actual (string)
@@ -35,16 +36,15 @@ const currentValue = computed(() => {
     return props.value as string
 })
 
+
+
 function handleChange(val: AcceptableValue) {
     // kirim hasil yang sesuai tipe generic
-    if (typeof props.value === 'string') {
-        emits('onChange', val as T)
-    } else {
-        // cari object yang sesuai dari options
-        const found = props.options.find(opt => opt.value === val)
-        emits('onChange', (found ?? (val as any)) as T)
-    }
+    const found = props.options.find(opt => opt.value === val ? val.toString() : null)
+    emits('onChange', (found ?? (val as any)) as IGeneralDataEmbed)
 }
+
+
 </script>
 
 <template>
@@ -56,6 +56,9 @@ function handleChange(val: AcceptableValue) {
             </SelectTrigger>
             <SelectContent>
                 <SelectGroup>
+                    <SelectItem v-if="props.canNullable" key="kosong" :value="null">
+                        Tidak Diisi
+                    </SelectItem>
                     <SelectItem v-for="item in props.options" :key="item.value" :value="item.value ?? ''">
                         {{ item.name }}
                     </SelectItem>

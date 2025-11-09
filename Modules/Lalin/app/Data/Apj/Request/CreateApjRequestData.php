@@ -12,16 +12,16 @@ use Spatie\LaravelData\Attributes\Validation\Email;
 class CreateApjRequestData extends Data
 {
     public function __construct(
-        #[Required, StringType]
-        public string $lokasi_nama_jalan,
+        #[Required]
+        public int $jalan_id,
         #[Required, StringType]
         public string $kode_tiang,
 
         #[Required()]
-        public float $latitude,
+        public string $latitude,
 
         #[Required()]
-        public float $longitude,
+        public string $longitude,
 
         #[Required()]
         public string $jenis,

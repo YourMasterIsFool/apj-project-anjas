@@ -1,14 +1,15 @@
 import { Apj, CreateOrUpdateApjDto } from '@/types/apj';
 import { IGeneralDataEmbed } from '@/types/generalDataEmbed';
+import { Jalan } from '@/types/jalan';
 import { useForm, usePage } from '@inertiajs/vue3';
 import { computed, ref, watch } from 'vue';
 
 export function useApj() {
     const form = useForm<CreateOrUpdateApjDto>({
-        lokasi_nama_jalan: '',
+        jalan_id: null,
         kode_tiang: '',
-        latitude: 0,
-        longitude: 0,
+        latitude: '',
+        longitude: '',
 
         jenis: '',
         tipe_tiang: '',
@@ -34,10 +35,13 @@ export function useApj() {
 
     const data = computed(() => page.props.data as Apj | undefined);
 
+    const list_jalan = computed(() => page.props.list_jalan as Jalan[] | []);
+
+    const selectedJalan = ref<IGeneralDataEmbed>();
+
     const onSubmit = async () => {
         //
         if (data.value?.id == null) {
-            console.log('post');
             form.post('/lalin/apj/');
         } else {
             form.put('/lalin/apj/' + data.value?.id);
@@ -60,5 +64,7 @@ export function useApj() {
         title,
         data,
         jenis,
+        list_jalan,
+        selectedJalan,
     };
 }

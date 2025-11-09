@@ -2,21 +2,23 @@
 
 namespace Modules\Lalin\app\Data\Traffic\Request;
 
+use Spatie\LaravelData\Attributes\DataCollectionOf;
 use Spatie\LaravelData\Data;
 
 use Spatie\LaravelData\Attributes\Validation\Rule;
 use Spatie\LaravelData\Attributes\Validation\Required;
 use Spatie\LaravelData\Attributes\Validation\StringType;
 use Spatie\LaravelData\Attributes\Validation\Email;
+use Spatie\LaravelData\DataCollection;
 
 class CreateTrafficRequestData extends Data
 {
 
-
-
     public function __construct(
-        #[Required, StringType]
-        public string $lokasi,
+        #[Required]
+        public ?int $jalan_id,
+        #[StringType]
+        public ?string $lokasi,
         #[Required, StringType]
         public string $kode,
         #[Required, StringType]
@@ -25,22 +27,21 @@ class CreateTrafficRequestData extends Data
         public ?int $tahun_pemasangan,
 
         #[Required()]
-        public ?float $latitude,
+        public ?string $latitude,
 
         #[Required()]
-        public ?float $longitude,
-        #[Required, StringType]
-        public string $pengaturan_fase,
+        public ?string $longitude,
+
+        #
+        public ?string $kondisi,
+
+        public ?int $pengaturan_fase,
 
         #[Required, StringType]
         public string $tipe_tiang,
-
-        #[Required, StringType]
-        public string $durasi,
-
-        #[Required, StringType]
-        public string $kondisi,
-        #[Required, StringType]
+        #[Required]
         public string $keterangan,
+        #[DataCollectionOf(LampusData::class)]
+        public DataCollection $list_lampu,
     ) {}
 }

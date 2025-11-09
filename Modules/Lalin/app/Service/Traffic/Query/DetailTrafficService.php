@@ -8,6 +8,6 @@ class DetailTrafficService
 {
     public function execute($id)
     {
-        return TTraffic::find($id);
+        return TTraffic::with(['list_lampu'])->find($id);
     }
 }

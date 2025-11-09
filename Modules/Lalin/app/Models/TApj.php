@@ -19,8 +19,16 @@ class TApj extends Model
 
 
 
+
+
     // protected static function newFactory(): TApjFactory
     // {
     //     // return TApjFactory::new();
     // }
+
+
+    public function jalan()
+    {
+        return $this->belongsTo(TJalan::class, 'jalan_id', 'id');
+    }
 }

@@ -27,7 +27,7 @@ class JalanService
         private DeleteJalanService $delete_jalan_service,
     ) {}
 
-    public function get_list_jalan(PaginationRequest $request)
+    public function get_list_jalan(?PaginationRequest $request = null)
     {
         return $this->getListJalanService->execute($request);
     }

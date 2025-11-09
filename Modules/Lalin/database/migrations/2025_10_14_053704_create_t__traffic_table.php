@@ -14,27 +14,24 @@ return new class extends Migration
         Schema::create('t_traffic', function (Blueprint $table) {
             $table->id(); // no (auto increment)
 
-            $table->string('lokasi'); // nama jalan
             $table->string('kode')->unique(); // kode unik tiap simpang
-            $table->decimal('latitude', 10, 7)->nullable();
-            $table->decimal('longitude', 10, 7)->nullable();
+            $table->string('latitude')->nullable();
+            $table->string('longitude')->nullable();
 
             $table->string('jenis_simpang')->nullable();
             $table->year('tahun_pemasangan')->nullable();
             $table->string('tipe_tiang')->nullable();
-            $table->string('pengaturan_fase')->nullable();
-
+            $table->integer('pengaturan_fase')->nullable();
             // durasi dalam menit/kali/hari, bisa pakai string agar fleksibel
-            $table->string('durasi')->nullable();
+            // $table->string('durasi')->nullable();
 
-            $table->string('kondisi')->nullable();
             $table->text('keterangan')->nullable();
 
-            $table->unsignedBigInteger("lalin_type_id");
-            $table->foreign('lalin_type_id')
-                ->references('id')
-                ->on('t_lalin_types')
-                ->onDelete('cascade');
+            $table->enum('lokasi', ["kiri", "tengah", "kanan"])->nullable();
+            $table->enum('kondisi', ["baik", "rusak", "hilang"])->nullable();
+            $table->enum("type", ["traffic", "warning"]);
+            $table->unsignedBigInteger('jalan_id');
+            $table->foreign('jalan_id')->references('id')->on('t_jalans')->onDelete("cascade");
 
             $table->timestamps();
         });

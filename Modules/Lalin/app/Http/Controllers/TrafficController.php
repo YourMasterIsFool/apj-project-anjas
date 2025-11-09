@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use Illuminate\Validation\ValidationException;
 use Inertia\Inertia;
 use Modules\Lalin\app\Data\Traffic\Request\CreateTrafficRequestData;
+use Modules\Lalin\app\Service\Jalan\JalanService;
 use Modules\Lalin\app\Service\Traffic\TrafficService;
 use Modules\Lalin\enum\TrafficType;
 
@@ -21,16 +22,20 @@ class TrafficController extends Controller
 
     use ResponseTrait;
     public function __construct(
-        private TrafficService $service
+        private TrafficService $service,
+        private JalanService $jalan_service
+
     ) {}
     public function index(Request $request)
     {
 
         $params = PaginationRequest::from($request);
         $data = $this->service->get_list_traffic($params, TrafficType::Traffic);
+
         // Controller
         return Inertia::render('lalin/traffic/pages/Index', [
-            "data" => $data
+            "data" => $data,
+
         ]);
     }
 
@@ -39,7 +44,12 @@ class TrafficController extends Controller
      */
     public function create()
     {
-        return Inertia::render('lalin/traffic/pages/Form');
+
+        $list_jalan = $this->jalan_service->get_list_jalan();
+        return Inertia::render('lalin/traffic/pages/Form', [
+            "lamp_types" => LAMP_TYPES,
+            'list_jalan' => $list_jalan
+        ]);
     }
 
     /**
@@ -65,8 +75,11 @@ class TrafficController extends Controller
     {
 
         $data = $this->service->detail($id);
+        $list_jalan = $this->jalan_service->get_list_jalan();
         return Inertia::render("lalin/traffic/pages/Form", [
-            "data" => $data
+            "data" => $data,
+            'list_jalan' => $list_jalan,
+            "lamp_types" => LAMP_TYPES,
         ]);
     }
 
@@ -88,5 +101,11 @@ class TrafficController extends Controller
     {
         $data = $this->service->delete($id);
         return redirect()->route("traffic.index")->with("success", "Successfully delete data");
+    }
+    public function export(Request $request)
+    {
+
+        $params = PaginationRequest::from($request);
+        return $this->service->export($params, TrafficType::Traffic);
     }
 }
