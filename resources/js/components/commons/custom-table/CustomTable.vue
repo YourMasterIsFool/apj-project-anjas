@@ -184,16 +184,22 @@ const handleExport = () => {
     }
 }
 
+const filterParamemeter = ref<Record<string, any>>();
 
 const handleSearch = () => {
     console.log("handle search")
-    router.get(page.url ?? '', params, {
-        preserveState: true,
+    router.visit(props.permissionsUrl.listUrl ?? '', {
+        data: {
+            ...params,
+            ...filterParamemeter.value
+        },
+        preserveState: false,
         replace: true,
+        onSuccess: () => {
+            openFilter.value = false
+        }
     })
 }
-const filterParamemeter = ref<Record<string, any>>();
-
 
 
 const onFilterSubmit = () => {

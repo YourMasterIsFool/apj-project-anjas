@@ -18,6 +18,8 @@ class GetListApjService
         // dd($pagination);
         $query = $query
             ->when($pagination->search, function ($query) use ($pagination) {
+
+
                 return $query->where("kode_tiang", "like", "%" . $pagination->search . "%")
                     ->orWhere("kondisi", "like", "%" . $pagination->search . "%")
                     ->orWhere("lokasi_detail", "like", "%" . $pagination->search . "%")
