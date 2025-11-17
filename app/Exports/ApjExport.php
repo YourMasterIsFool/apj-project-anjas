@@ -50,15 +50,12 @@ class ApjExport implements FromCollection, WithHeadings, WithMapping
         return [
             $counter,
             $row->jalan->name,
-            $row->lokasi,
-            $row->kode,
-            $row->jenis_simpang,
+            $row->kode_tiang,
             $row->latitude,
             $row->longitude,
-            $row->tahun_pemasangan,
-            $row->pengaturan_fase,
+            $row->jenis,
             $row->tipe_tiang,
-            $row->kondisi,
+            $row->tahun_pemasangan,
             $row->keterangan,
         ];
     }

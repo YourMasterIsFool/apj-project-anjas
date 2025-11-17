@@ -19,7 +19,6 @@ class GetListApjService
         $query = $query
             ->when($pagination->search, function ($query) use ($pagination) {
 
-
                 return $query->where("kode_tiang", "like", "%" . $pagination->search . "%")
                     ->orWhere("kondisi", "like", "%" . $pagination->search . "%")
                     ->orWhere("lokasi_detail", "like", "%" . $pagination->search . "%")
@@ -31,11 +30,12 @@ class GetListApjService
             ->when($pagination->jenis, function ($query) use ($pagination) {
                 $query->where("jenis", $pagination->jenis);
             });
+        $query = $query->with(['jalan:id,nama_jalan as name']);
+
         if ($is_export) {
             return $query->get();
         }
 
-        $query = $query->with(['jalan:id,nama_jalan as name']);
         $query = cursorPaginationHelper($query, $pagination);
 
         // dd($query);
