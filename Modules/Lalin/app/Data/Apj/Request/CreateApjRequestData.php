@@ -14,26 +14,20 @@ class CreateApjRequestData extends Data
     public function __construct(
         #[Required]
         public int $jalan_id,
-        #[Required, StringType]
+        #[Required]
         public string $kode_tiang,
 
-        #[Required()]
-        public string $latitude,
+        public ?string $latitude,
 
-        #[Required()]
-        public string $longitude,
+        public ?string $longitude,
 
-        #[Required()]
-        public string $jenis,
+        public ?string $jenis,
 
-        #[Required, StringType]
-        public string $tipe_tiang,
+        public ?string $tipe_tiang,
 
-        #[Required, StringType]
-        public string $lokasi_detail,
+        public ?string $lokasi_detail,
 
-        #[Required, StringType]
-        public string $keterangan,
+        public ?string $keterangan,
         #[Required]
         public int $tahun_pemasangan,
 

@@ -18,7 +18,8 @@ class GetListJalanService
         }
         $query = $query
             ->when($pagination->search, function ($query) use ($pagination) {
-                return $query->where("nama_jalan", "like", "%" . $pagination->search . "%");
+                return $query->where("nama_jalan", "like", "%" . $pagination->search . "%")
+                    ->orWhere("kode_jalan", "like", "%" . $pagination->search . "%");
             });
         if ($is_export) {
             return $query->get();

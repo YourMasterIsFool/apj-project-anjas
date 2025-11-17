@@ -1,7 +1,7 @@
 <script lang="ts" setup generic="T">
 import { GenerateFilterFormProps } from '.';
 import AsyncSelect from '../async-select/AsyncSelect.vue';
-import { ref, watch } from 'vue';
+import { onMounted, ref, watch } from 'vue';
 import { IGeneralDataEmbed } from '@/types/generalDataEmbed';
 
 
@@ -18,15 +18,17 @@ watch(params, (value) => {
     deep: true
 })
 
-
-watch(props.params, (value) => {
-    for (const key in value) {
+onMounted(() => {
+    props.params.forEach((item) => {
         params.value = {
             ...params.value,
-            key: value[key]
+            [item.param_name]: ""
         }
-    }
+    })
 })
+
+
+console.log(params.value);
 
 </script>
 

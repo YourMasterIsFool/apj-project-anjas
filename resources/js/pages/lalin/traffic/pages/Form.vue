@@ -111,8 +111,8 @@ const {
                                         label="Kondisi" />
                                 </div>
                                 <div class="space-y-1 col-span-2">
-                                    <FormInput type="text" label="Keterangang" placeholder="Keterangan"
-                                        name="keterangan" :form="form" />
+                                    <FormInput type="text" label="Keterangan" placeholder="Keterangan" name="keterangan"
+                                        :form="form" />
                                 </div>
 
                                 <!-- Button -->

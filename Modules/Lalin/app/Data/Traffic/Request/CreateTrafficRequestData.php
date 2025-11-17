@@ -17,19 +17,14 @@ class CreateTrafficRequestData extends Data
     public function __construct(
         #[Required]
         public ?int $jalan_id,
-        #[StringType]
         public ?string $lokasi,
-        #[Required, StringType]
+        #[Required]
         public string $kode,
-        #[Required, StringType]
-        public string $jenis_simpang,
-        #[Required()]
+        public ?string $jenis_simpang,
         public ?int $tahun_pemasangan,
 
-        #[Required()]
         public ?string $latitude,
 
-        #[Required()]
         public ?string $longitude,
 
         #
@@ -37,10 +32,8 @@ class CreateTrafficRequestData extends Data
 
         public ?int $pengaturan_fase,
 
-        #[Required, StringType]
-        public string $tipe_tiang,
-        #[Required]
-        public string $keterangan,
+        public ?string $tipe_tiang,
+        public ?string $keterangan,
         #[DataCollectionOf(LampusData::class)]
         public DataCollection $list_lampu,
     ) {}
