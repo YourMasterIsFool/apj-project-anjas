@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use Illuminate\Validation\ValidationException;
 use Inertia\Inertia;
 use Modules\Lalin\app\Data\Apj\Request\CreateApjRequestData;
+use Modules\Lalin\app\Data\Apj\Request\GetListApjRequestData;
 use Modules\Lalin\app\Service\Apj\ApjService;
 use Modules\Lalin\app\Service\Jalan\JalanService;
 
@@ -27,7 +28,7 @@ class ApjController extends Controller
     public function index(Request $request)
     {
 
-        $params = PaginationRequest::from($request);
+        $params = GetListApjRequestData::from($request);
         $data = $this->service->get_list_apj($params);
         $list_jalan = $this->jalan_service->get_list_jalan();
         // Controller
@@ -97,5 +98,11 @@ class ApjController extends Controller
     {
         $data = $this->service->delete($id);
         return redirect()->route("apj.index")->with("success", "Successfully delete data");
+    }
+    public function export(Request $request)
+    {
+
+        $params = GetListApjRequestData::from($request);
+        return $this->service->export($params, "apj");
     }
 }

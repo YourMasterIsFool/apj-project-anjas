@@ -33,7 +33,8 @@ class WarningController extends Controller
         $data = $this->service->get_list_traffic($params, TrafficType::Warning);
         // Controller
         return Inertia::render('lalin/warning/pages/Index', [
-            "data" => $data
+            "data" => $data,
+            "list_jalan" => $this->jalan_service->get_list_jalan()
         ]);
     }
 

@@ -1,4 +1,10 @@
+import {
+    IGenerateForm,
+    useFilterGenerateForms,
+} from '@/components/commons/generate-filter-form';
+import { listJenis } from '@/shared/listJenis';
 import { Apj } from '@/types/apj';
+import { IGeneralDataEmbed } from '@/types/generalDataEmbed';
 import { Jalan } from '@/types/jalan';
 import { PaginationResponse } from '@/types/paginationResponse';
 import { PermissionsUrl } from '@/types/permissions';
@@ -16,6 +22,7 @@ export function useApjs() {
         detailUrl: URL_PATH + '/:id/edit',
         deleteUrl: URL_PATH + '/:id',
         listUrl: URL_PATH,
+        exportUrl: '/export-excel/apj',
     };
 
     const columnHelper = createColumnHelper<Apj>();
@@ -130,12 +137,41 @@ export function useApjs() {
         .data as PaginationResponse<Apj>;
 
     const list_jalan = page.props.list_jalan as Jalan[];
-    console.log(content);
+
+    const params: IGenerateForm[] = [
+        {
+            param_name: 'jalan_id',
+            options: list_jalan.map(
+                (item) =>
+                    ({
+                        name: item.nama_jalan,
+                        value: item.id.toString(),
+                    }) as IGeneralDataEmbed,
+            ),
+            type: 'select',
+            label: 'Pilih Jalan',
+        },
+
+        {
+            param_name: 'jenis',
+            options: listJenis,
+            type: 'select',
+            label: 'Pilih Jenis',
+        },
+    ];
+
+    const filter_forms = useFilterGenerateForms({
+        params: params,
+        url: permissionsUrl.listUrl ?? '',
+    });
+
     return {
         page,
         permissionsUrl,
         content,
         columns,
         list_jalan,
+        params,
+        filter_forms,
     };
 }

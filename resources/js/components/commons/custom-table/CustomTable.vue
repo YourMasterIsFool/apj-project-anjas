@@ -8,8 +8,9 @@ import type {
     SortingState,
     VisibilityState,
 } from "@tanstack/vue-table"
-import { FilterIcon, Plus } from "lucide-vue-next";
+import { FilterIcon, Plus, Search } from "lucide-vue-next";
 import FilterDialogTable from "./FilterDialogTable.vue";
+
 
 
 import { DownloadCloudIcon } from "lucide-vue-next";
@@ -26,7 +27,7 @@ import {
     useVueTable,
 } from "@tanstack/vue-table"
 
-import { computed, reactive, ref, watch, } from "vue"
+import { computed, reactive, ref, } from "vue"
 
 import { valueUpdater } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
@@ -54,6 +55,8 @@ import { router, usePage } from "@inertiajs/vue3"
 import { PaginationResponse } from "@/types/paginationResponse";
 import { PaginationRequest } from "@/types/paginationRequest";
 import Input from "@/components/ui/input/Input.vue";
+import GenerateFilterForm from "../generate-filter-form/GenerateFilterForm.vue";
+import { GenerateFilterFormProps } from "../generate-filter-form";
 
 
 export interface Payment {
@@ -68,6 +71,7 @@ interface PropsType {
     columns: ColumnDef<T, any>[],
     permissionsUrl: PermissionsUrl,
     data: T[]
+    filterParams?: GenerateFilterFormProps
 }
 
 const props = withDefaults(defineProps<PropsType>(), {
@@ -149,7 +153,6 @@ const params = reactive<PaginationRequest>({
     search: undefined
 })
 
-const filterParams = reactive<any>({});
 
 
 const nextPaginationHandler = () => {
@@ -160,23 +163,15 @@ const nextPaginationHandler = () => {
 const prevPaginationHandler = () => {
     params.cursor = props.content.prev_cursor
 }
-watch(params, (value) => {
 
 
-    if (!value) return
-    router.get(page.url ?? '', { ...value, ...filterParams }, {
-        preserveState: true,
-        replace: true,
-    })
-}, { deep: true })
-
-watch(filterParams, (value) => {
-    if (!value) return
-    router.get(page.url ?? '', value, {
-        preserveState: true,
-        replace: true,
-    })
-}, { deep: true })
+// watch(filterParams, (value) => {
+//     if (!value) return
+//     router.get(page.url ?? '', value, {
+//         preserveState: true,
+//         replace: true,
+//     })
+// }, { deep: true })
 
 const handleExport = () => {
 
@@ -190,15 +185,45 @@ const handleExport = () => {
 }
 
 
+const handleSearch = () => {
+    console.log("handle search")
+    router.get(page.url ?? '', params, {
+        preserveState: true,
+        replace: true,
+    })
+}
+const filterParamemeter = ref<Record<string, any>>();
+
+
+
+const onFilterSubmit = () => {
+    if (!filterParamemeter.value) return
+    router.visit(props.permissionsUrl.listUrl ?? '', {
+        data: filterParamemeter.value,
+        preserveState: false,
+        replace: true,
+        onSuccess: () => {
+            openFilter.value = false
+        }
+    })
+
+
+
+}
+
+
+
+
+
 </script>
 
 <template>
     <div class="w-full">
-        <FilterDialogTable @on-filter="emits('onFilter')" :open="openFilter" @onCancel="openFilter = false"
+        <FilterDialogTable v-if="filterParams" @on-submit="onFilterSubmit" @on-open-change="openFilter = !openFilter"
+            @on-filter="emits('onFilter')" :open="openFilter" @onCancel="openFilter = false"
             @onOpenChange="openFilter = !openFilter">
-            <slot name="filter">
-                w
-            </slot>
+            <GenerateFilterForm @on-change="(value) => filterParamemeter = value" v-if="filterParams"
+                :params="filterParams.params" />
         </FilterDialogTable>
         <div class="flex justify-end items-center space-x-3">
             <Button variant="outline"
@@ -207,14 +232,17 @@ const handleExport = () => {
                 <DownloadCloudIcon />
             </Button>
 
-            <Button variant="secondary" @click="openFilter = true">
+            <Button v-if="filterParams" variant="secondary" @click="openFilter = true">
                 <FilterIcon />
             </Button>
             <Button variant="secondary" @click="refreshHandler">
                 <RefreshCcw />
             </Button>
-            <div>
+            <div class="flex items-center space-x-2">
                 <Input placeholder="search ..." v-model="params.search" />
+                <Button @click="handleSearch" variant="default">
+                    <Search />
+                </Button>
             </div>
 
             <Button v-if="props.permissionsUrl && props.permissionsUrl.createUrl"

@@ -1,6 +1,6 @@
 import { list_kondisi } from '@/shared/listKondisi';
 import { list_lokasi } from '@/shared/listLokasi';
-import { IGeneralDataEmbed } from '@/types/generalDataEmbed';
+import { list_pengaturan_fase } from '@/shared/listPengaturanFase';
 import { Jalan } from '@/types/jalan';
 import {
     CreateOrUpdateTrafficDto,
@@ -38,29 +38,6 @@ export function useTraffic() {
         ],
     });
 
-    const list_pengaturan_fase = ref<IGeneralDataEmbed[]>([
-        {
-            name: '1',
-            value: '1',
-        },
-        {
-            name: '2',
-            value: '2',
-        },
-        {
-            name: '3',
-            value: '3',
-        },
-        {
-            name: '4',
-            value: '4',
-        },
-        {
-            name: '5',
-            value: '5',
-        },
-    ]);
-
     const title = ref<string>('Create Traffic');
 
     const onSubmit = async () => {
@@ -85,6 +62,7 @@ export function useTraffic() {
         },
         { immediate: true },
     );
+
     return {
         form,
         onSubmit,
@@ -95,5 +73,6 @@ export function useTraffic() {
         list_kondisi,
         list_jalan,
         list_lokasi,
+        // filter_forms,
     };
 }

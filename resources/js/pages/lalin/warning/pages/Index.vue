@@ -18,6 +18,7 @@ const {
     permissionsUrl,
     columns,
     content,
+    filter_forms
 } = useWarnings()
 
 
@@ -29,7 +30,7 @@ const {
     <AppLayout :breadcrumbs="breadcrumbs" title="List Warning">
         <MainCard :permissionsUrl="permissionsUrl" title="List Warning">
             <template #main>
-                <CustomTable :content="content" :columns="columns" :data="content.data"
+                <CustomTable :filterParams="filter_forms" :content="content" :columns="columns" :data="content.data"
                     :permissionsUrl="permissionsUrl" />
             </template>
         </MainCard>

@@ -1,3 +1,4 @@
+import { listJenis } from '@/shared/listJenis';
 import { Apj, CreateOrUpdateApjDto } from '@/types/apj';
 import { IGeneralDataEmbed } from '@/types/generalDataEmbed';
 import { Jalan } from '@/types/jalan';
@@ -22,16 +23,7 @@ export function useApj() {
 
     const page = usePage();
 
-    const jenis = ref<IGeneralDataEmbed[]>([
-        {
-            name: 'Surya',
-            value: 'Surya',
-        },
-        {
-            name: 'Konvensional',
-            value: 'Konvensional',
-        },
-    ]);
+    const jenis = listJenis;
 
     const data = computed(() => page.props.data as Apj | undefined);
 

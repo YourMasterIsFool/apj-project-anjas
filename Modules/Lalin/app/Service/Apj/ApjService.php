@@ -4,7 +4,10 @@
 namespace Modules\Lalin\app\Service\Apj;
 
 use App\Data\Request\PaginationRequest;
+use App\Exports\ApjExport;
+use Maatwebsite\Excel\Facades\Excel;
 use Modules\Lalin\app\Data\Apj\Request\CreateApjRequestData;
+use Modules\Lalin\app\Data\Apj\Request\GetListApjRequestData;
 use Modules\Lalin\app\Service\Apj\Command\CreateApjService;
 use Modules\Lalin\app\Service\Apj\Command\DeleteApjService;
 use Modules\Lalin\app\Service\Apj\Command\UpdateApjService;
@@ -23,7 +26,7 @@ class ApjService
         private DeleteApjService $delete_apj_service,
     ) {}
 
-    public function get_list_apj(PaginationRequest $request)
+    public function get_list_apj(GetListApjRequestData $request)
     {
         return $this->getListApjService->execute($request);
     }
@@ -46,5 +49,17 @@ class ApjService
     public function delete($id)
     {
         return $this->delete_apj_service->execute($id);
+    }
+
+    public function export(?PaginationRequest $pagination)
+    {
+
+        $filename = 'data_' . "Apj" . date('Y_m_d_His');
+        $export_data = $this->getListApjService->execute($pagination, true);
+        return Excel::download(
+            new ApjExport($export_data),
+            $filename . '.xlsx',
+            \Maatwebsite\Excel\Excel::XLSX // jangan pakai string typo
+        );
     }
 }

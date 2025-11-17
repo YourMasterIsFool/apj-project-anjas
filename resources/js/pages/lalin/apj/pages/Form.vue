@@ -79,8 +79,8 @@ const {
                                 </div>
 
                                 <div class="space-y-1 ">
-                                    <FormSelect @on-change="(value) => form.jenis = value" placeholder="Select Jenis"
-                                        :value="form.jenis" :options="jenis" label="Jenis" />
+                                    <FormSelect @on-change="(value) => form.jenis = value.value ?? ''"
+                                        placeholder="Select Jenis" :value="form.jenis" :options="jenis" label="Jenis" />
                                 </div>
 
                                 <!-- Button -->

@@ -6,7 +6,7 @@ import { Combobox, ComboboxAnchor, ComboboxEmpty, ComboboxGroup, ComboboxInput, 
 import { cn } from "@/lib/utils"
 import { FormSelectProps } from "@/types/form-select"
 import { IGeneralDataEmbed } from "@/types/generalDataEmbed"
-
+import Label from "@/components/ui/label/Label.vue"
 
 
 const props = defineProps<FormSelectProps<T>>();
@@ -17,7 +17,6 @@ const emits = defineEmits<{
 }>()
 
 watch(value, (val) => {
-    console.log(val)
     emits('update:modelValue', val as IGeneralDataEmbed)
 })
 
@@ -29,12 +28,13 @@ onMounted(() => {
 </script>
 
 <template>
-    <div class="flex flex-col space-y-1 w-full!">
-        <Label :for="props.label" class="">
+    <div class="flex flex-col space-y-2 w-full!">
+
+        <Label :for="props.label" class="mb-2">
             {{ props.label }}
         </Label>
-        <Combobox v-model="value" class="w-full" by="label">
-            <ComboboxAnchor class="w-full" as-child>
+        <Combobox v-model="value" class="w-full">
+            <ComboboxAnchor class=" w-full" as-child>
                 <ComboboxTrigger as-child>
                     <Button variant="outline" class="justify-between">
                         {{ value?.name ?? props.placeholder }}

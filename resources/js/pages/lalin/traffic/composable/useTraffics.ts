@@ -1,3 +1,12 @@
+import {
+    IGenerateForm,
+    useFilterGenerateForms,
+} from '@/components/commons/generate-filter-form';
+import { list_kondisi } from '@/shared/listKondisi';
+import { list_lokasi } from '@/shared/listLokasi';
+import { list_pengaturan_fase } from '@/shared/listPengaturanFase';
+import { IGeneralDataEmbed } from '@/types/generalDataEmbed';
+import { Jalan } from '@/types/jalan';
 import { PaginationResponse } from '@/types/paginationResponse';
 import { PermissionsUrl } from '@/types/permissions';
 import { Traffic } from '@/types/traffic';
@@ -18,6 +27,7 @@ export function useTraffics() {
         exportUrl: '/export-excel/traffic',
     };
 
+    const list_jalan = computed(() => page.props.list_jalan as Jalan[] | []);
     const columnHelper = createColumnHelper<Traffic>();
 
     const columns: ColumnDef<Traffic, any>[] = [
@@ -160,11 +170,49 @@ export function useTraffics() {
         () => pages.props.data as PaginationResponse<Traffic>,
     );
 
-    console.log(content);
+    const params: IGenerateForm[] = [
+        {
+            param_name: 'jalan_id',
+            options: list_jalan.value.map(
+                (item) =>
+                    ({
+                        name: item.nama_jalan,
+                        value: item.id.toString(),
+                    }) as IGeneralDataEmbed,
+            ),
+            type: 'select',
+            label: 'Pilih Jalan',
+        },
+        {
+            param_name: 'pengaturan_fase',
+            options: list_pengaturan_fase,
+            type: 'select',
+            label: 'Pilih Pengaturan Fase',
+        },
+        {
+            param_name: 'kondisi',
+            options: list_kondisi,
+            type: 'select',
+            label: 'Pilih Kondisi',
+        },
+        {
+            param_name: 'Lokasi',
+            options: list_lokasi,
+            type: 'select',
+            label: 'Pilih Lokasi',
+        },
+    ];
+
+    const filter_forms = useFilterGenerateForms({
+        params: params,
+        url: permissionsUrl.listUrl ?? '',
+    });
     return {
         page,
         permissionsUrl,
         content,
         columns,
+        filter_forms,
+        list_pengaturan_fase,
     };
 }

@@ -18,13 +18,15 @@ const props = withDefaults(defineProps<PropsType>(), {
 
 const emits = defineEmits(['onSubmit', "onOpenChange", "onCancel", "onFilter"]);
 
+
 </script>
 
 <template>
     <Dialog :open="props.open" @update:open="emits('onOpenChange')">
 
         <DialogContent class="sm:max-w-[425px] grid-rows-[auto_minmax(0,1fr)_auto] p-0 max-h-[90dvh]">
-            <DialogHeader class="p-6 pb-0">
+
+            <DialogHeader class=" p-6 pb-0">
                 <DialogTitle>Filter</DialogTitle>
             </DialogHeader>
             <div class="p-6 pb-0">
@@ -35,10 +37,12 @@ const emits = defineEmits(['onSubmit', "onOpenChange", "onCancel", "onFilter"]);
                 <Button variant="ghost" @click="emits('onCancel')" type="button">
                     Cancel
                 </Button>
-                <Button @click="emits('onFilter')" type="submit" variant="default">
+
+                <Button @click="emits('onSubmit')" type="submit">
                     Filter
                 </Button>
             </DialogFooter>
+
         </DialogContent>
     </Dialog>
 </template>

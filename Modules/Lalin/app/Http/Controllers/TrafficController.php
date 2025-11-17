@@ -35,6 +35,7 @@ class TrafficController extends Controller
         // Controller
         return Inertia::render('lalin/traffic/pages/Index', [
             "data" => $data,
+            'list_jalan' => $this->jalan_service->get_list_jalan()
 
         ]);
     }
