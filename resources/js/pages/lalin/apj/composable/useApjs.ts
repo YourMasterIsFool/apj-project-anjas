@@ -94,7 +94,7 @@ export function useApjs() {
             },
         }),
         columnHelper.accessor('tahun_pemasangan', {
-            header: () => h('div', { class: 'text-left' }, 'Tipe Tiang'),
+            header: () => h('div', { class: 'text-left' }, 'Tahun Pemasangan'),
             cell: ({ row }) => {
                 // Format the amount as a dollar amount
 
@@ -106,7 +106,7 @@ export function useApjs() {
             },
         }),
         columnHelper.accessor('lokasi_detail', {
-            header: () => h('div', { class: 'text-left' }, 'Tahun Pemasangan'),
+            header: () => h('div', { class: 'text-left' }, 'Lokasi Detail'),
             cell: ({ row }) => {
                 // Format the amount as a dollar amount
 
