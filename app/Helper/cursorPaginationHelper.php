@@ -12,8 +12,6 @@ function cursorPaginationHelper($query, PaginationRequest $pagination)
     //     throw new InvalidArgumentException("{$modelClass} must be an instance of Eloquent Model");
     // }
 
-
-
     return $query->cursorPaginate(
         perPage: $pagination->limit,
         cursor: $pagination->cursor,

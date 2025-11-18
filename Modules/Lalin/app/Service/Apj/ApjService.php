@@ -51,11 +51,12 @@ class ApjService
         return $this->delete_apj_service->execute($id);
     }
 
-    public function export(?PaginationRequest $pagination)
+    public function export(?GetListApjRequestData $pagination)
     {
 
         $filename = 'data_' . "Apj" . date('Y_m_d_His');
         $export_data = $this->getListApjService->execute($pagination, true);
+
         return Excel::download(
             new ApjExport($export_data),
             $filename . '.xlsx',

@@ -18,11 +18,13 @@ class GetListApjService
         // dd($pagination);
         $query = $query
             ->when($pagination->search, function ($query) use ($pagination) {
+                $query->where(function ($q) use ($pagination) {
+                    $s = strtolower($pagination->search);
 
-                return $query->where("kode_tiang", "like", "%" . $pagination->search . "%")
-                    ->orWhere("kondisi", "like", "%" . $pagination->search . "%")
-                    ->orWhere("lokasi_detail", "like", "%" . $pagination->search . "%")
-                    ->orWhere("keterangan", "like", "%" . $pagination->search . "%");
+                    $q->whereRaw("LOWER(kode_tiang) LIKE ?", ["%$s%"])
+                        ->orWhereRaw("LOWER(lokasi_detail) LIKE ?", ["%$s%"])
+                        ->orWhereRaw("LOWER(keterangan) LIKE ?", ["%$s%"]);
+                });
             })
             ->when($pagination->jalan_id, function ($query) use ($pagination) {
                 $query->where("jalan_id", $pagination->jalan_id);
@@ -38,7 +40,8 @@ class GetListApjService
 
         $query = cursorPaginationHelper($query, $pagination);
 
-        // dd($query);
+
+
 
         return $query;
     }

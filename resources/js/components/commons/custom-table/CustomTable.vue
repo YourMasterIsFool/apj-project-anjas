@@ -180,7 +180,8 @@ const handleExport = () => {
         const payload = new URLSearchParams();
 
         if (params.search) payload.append("search", params.search)
-        window.open(props.permissionsUrl.exportUrl + `?${payload.toString()}`)
+        console.log(params);
+        window.open(props.permissionsUrl.exportUrl + `?${page.url.toString()}`)
     }
 }
 
