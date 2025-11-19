@@ -20,7 +20,7 @@ export function useJalan() {
         //
         if (data.value?.id == null) {
             console.log('post');
-            form.post('/lalin/jalan/', {
+            form.post('/lalin/jalan', {
                 onSuccess: () => {
                     console.log('✅ POST Success');
                 },
