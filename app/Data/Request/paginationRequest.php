@@ -12,3 +12,5 @@ class PaginationRequest extends Data
         public ?string $search = null
     ) {}
 }
+
+// rename
