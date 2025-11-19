@@ -44,7 +44,7 @@ export function useTraffic() {
         //
         if (data.value?.id == null) {
             console.log('post');
-            form.post('/lalin/traffic/');
+            form.post('/lalin/traffic');
         } else {
             form.put('/lalin/traffic/' + data.value?.id);
         }

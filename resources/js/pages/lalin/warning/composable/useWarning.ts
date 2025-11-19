@@ -66,7 +66,7 @@ export function useWarning() {
     const onSubmit = async () => {
         //
         if (data.value?.id == null) {
-            form.post('/lalin/warning/');
+            form.post('/lalin/warning');
         } else {
             form.put('/lalin/warning/' + data.value?.id);
         }

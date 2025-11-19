@@ -46,7 +46,6 @@ class JalanController extends Controller
      */
     public function store(Request $request)
     {
-        dd("test");
         $validation = CreateJalanRequestData::from($request);
         $created = $this->service->create_jalan($validation);
 
