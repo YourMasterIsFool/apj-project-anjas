@@ -34,7 +34,7 @@ class CreateTrafficService
             $model->type = $type->value;
             $model->save();
 
-            if ($data->list_lampu && isIterable($data->list_lampu)) {
+            if ($data->list_lampu) {
                 $model->list_lampu()->createMany($data->list_lampu->toArray());
             }
 

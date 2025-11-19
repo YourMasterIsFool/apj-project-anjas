@@ -33,7 +33,7 @@ class UpdateTrafficService
 
 
             $model->list_lampu()->delete();
-            if ($data->list_lampu && isIterable($data->list_lampu)) {
+            if ($data->list_lampu) {
                 $model->list_lampu()->createMany($data->list_lampu->toArray());
             }
 
