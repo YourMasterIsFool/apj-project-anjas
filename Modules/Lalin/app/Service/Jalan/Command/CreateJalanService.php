@@ -28,6 +28,7 @@ class CreateJalanService
             return $model;
         } catch (\Exception $e) {
             DB::rollBack();
+            dd($e);
 
             throw new Error("failed created" . $e->getMessage());
         }
