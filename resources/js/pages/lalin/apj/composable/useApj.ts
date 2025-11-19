@@ -34,7 +34,17 @@ export function useApj() {
     const onSubmit = async () => {
         //
         if (data.value?.id == null) {
-            form.post('/lalin/apj/');
+            form.post('/lalin/apj/', {
+                onSuccess: () => {
+                    console.log('✅ POST Success');
+                },
+                onError: (errors) => {
+                    console.log('❌ POST Errors:', errors);
+                },
+                onFinish: () => {
+                    console.log('🏁 POST Finished');
+                },
+            });
         } else {
             form.put('/lalin/apj/' + data.value?.id);
         }
