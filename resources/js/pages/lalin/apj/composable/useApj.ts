@@ -44,6 +44,7 @@ export function useApj() {
                 onFinish: () => {
                     console.log('🏁 POST Finished');
                 },
+                //test
             });
         } else {
             form.put('/lalin/apj/' + data.value?.id);
