@@ -23,6 +23,8 @@ class CreateJalanService
             $model->save();
 
             DB::commit();
+
+            dd($data);
             return $model;
         } catch (\Exception $e) {
             DB::rollBack();
