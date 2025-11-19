@@ -1,0 +1,1 @@
+const a=[{name:"Baik",value:"baik"},{name:"Rusak",value:"rusak"},{name:"Hilang",value:"hilang"}],n=[{name:"kiri",value:"kiri"},{name:"tengah",value:"tengah"},{name:"kanan",value:"kanan"}];export{a,n as l};
